@@ -1,0 +1,6 @@
+# Manager
+dn: cn=Manager,dc=example,dc=com
+objectClass: organizationalRole
+objectClass: simpleSecurityObject
+cn: Manager
+userPassword: {SSHA}Z0jLehj9q6GCqhKfY50bDGxz2oD9x7Ql
