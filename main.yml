@@ -1,0 +1,303 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - ruby_version: 2.3.1
+    - python_version: 3.5.2
+    - src_dir: src
+    - work_dir: work
+    - mecab_ver: mecab-0.996
+    - mecab_url: https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7cENtOXlicTFaRUE
+    - ipadic_url: https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM
+    - ipadic_ver: mecab-ipadic-2.7.0-20070801
+    - neologd_dir: neologd
+
+  tasks:
+    - name: install libselinux-python
+      yum: name=libselinux-python state=latest
+    - name: Disabled SELinux
+      selinux:
+        state: disabled
+    - name: remove localtime
+      file: path=/etc/localtime state=absent
+    - name: change timezone
+      file: src=/usr/share/zoneinfo/Asia/Tokyo dest=/etc/localtime state=link force=yes mode=0644
+    - name: install ntp
+      yum: name=ntp state=latest
+    - name: change /etc/adjtime
+      replace: >-
+        dest='/etc/adjtime'
+        regexp='LOCAL'
+        replace='UTC'
+    - name: install remi repository
+      command: rpm -Uvh --force http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+    - name: install man
+      yum: name=man state=latest
+    - name: install apache
+      yum: name=httpd state=latest
+    - name: start apache and enabled
+      service: name=httpd state=started enabled=yes
+    - name: change owner
+      file: dest=/var/www/html owner=vagrant recurse=yes
+    - name: copy httpd.conf
+      copy: src=httpd.conf.custom dest=/etc/httpd/conf/httpd.conf backup=yes
+      notify:
+        - restart apache
+    - name: install gd-last
+      yum: name=gd-last enablerepo=remi state=latest
+    - name: install php
+      yum: name={{item}} enablerepo=remi-php56 state=present
+      with_items:
+        - php
+        - php-common
+        - php-pdo
+        - php-cli
+        - php-devel
+        - php-mbstring
+        - php-gd
+        - php-intl
+        - php-xml
+      notify:
+        - restart apache
+    - name: copy php.ini.custom
+      copy: src=php.ini.custom dest=/etc/php.ini backup=yes
+      notify:
+        - restart apache
+
+    - name: install ruby dependencies
+      yum: name={{item}} enablerepo=remi,epel state=present
+      with_items:
+        - gcc
+        - openssl
+        - openssl-devel
+        - rpm-build
+        - gcc-c++
+        - bzip2
+        - bzip2-devel
+        - libtool
+        - zlib
+        - zlib-devel
+        - httpd-devel
+        - openssl-devel
+        - curl-devel
+        - ncurses-devel
+        - gdbm-devel
+        - readline
+        - readline-devel
+        - sqlite
+        - sqlite-devel
+        - libyaml-devel
+        - libffi-devel
+        - bison
+
+    - name: check rbenv installed
+      command: test -x /home/vagrant/.rbenv
+      register: rbenv_present
+      become: no
+      failed_when: rbenv_present.rc not in [0, 1]
+    - name: git clone rbenv
+      git: repo=https://github.com/sstephenson/rbenv.git dest=/home/vagrant/.rbenv
+      when: rbenv_present.rc == 1
+      become: no
+    - name: update bash_profile
+      copy: src=bash_profile.custom dest=/home/vagrant/.bash_profile backup=yes
+      become: no
+
+    - name: check ruby-build installed
+      command: test -x /home/vagrant/.rbenv/plugins/ruby-build
+      register: rbuild_present
+      become: no
+      failed_when: rbuild_present.rc not in [0, 1]
+    - name: git clone ruby-build
+      git: repo=https://github.com/sstephenson/ruby-build.git dest=/home/vagrant/.rbenv/plugins/ruby-build
+      when: rbuild_present.rc == 1
+      become: no
+
+    - name: update rbenv
+      command: git pull --rebase chdir=/home/vagrant/.rbenv
+      become: no
+    - name: update ruby-build
+      command: git pull --rebase chdir=/home/vagrant/.rbenv/plugins/ruby-build
+      become: no
+
+    - name: check ruby installed
+      shell: /bin/bash -lc "rbenv versions | grep {{ruby_version}}"
+      register: ruby_installed
+      become: no
+      failed_when: ruby_installed.rc not in [0, 1]
+    - name: install ruby
+      shell: /bin/bash -lc "rbenv install {{ruby_version}} && rbenv rehash && rbenv global {{ruby_version}}"
+      when: ruby_installed.rc == 1
+      become: no
+
+    - name: check pyenv installed
+      command: test -x /home/vagrant/.pyenv
+      register: pyenv_present
+      become: no
+      failed_when: pyenv_present.rc not in [0, 1]
+    - name: git clone pyenv
+      git: repo=https://github.com/yyuu/pyenv.git dest=/home/vagrant/.pyenv
+      when: pyenv_present.rc == 1
+      become: no
+
+    - name: check pyvirtual installed
+      command: test -x /home/vagrant/.pyenv/plugins/pyenv-virtualenv
+      register: pyvirtual_present
+      become: no
+      failed_when: pyvirtual_present.rc not in [0, 1]
+    - name: git clone pyenv-virtual
+      git: repo=https://github.com/yyuu/pyenv-virtualenv.git dest=/home/vagrant/.pyenv/plugins/pyenv-virtualenv
+      when: pyvirtual_present.rc == 1
+      become: no
+
+    - name: update pyenv
+      command: git pull --rebase chdir=/home/vagrant/.pyenv
+      become: no
+    - name: update pyenv-virtualenv
+      command: git pull --rebase chdir=/home/vagrant/.pyenv/plugins/pyenv-virtualenv
+      become: no
+
+    - name: check python installed
+      shell: /bin/bash -lc "pyenv versions | grep {{python_version}}"
+      register: python_installed
+      become: no
+      failed_when: python_installed.rc not in [0, 1]
+    - name: install python
+      shell: /bin/bash -lc "pyenv install {{python_version}} && pyenv rehash && pyenv global {{python_version}}"
+      when: python_installed.rc == 1
+      become: no
+
+    - name: check node js installed
+      shell: /bin/bash -lc "node -v"
+      register: node_installed
+      become: no
+      failed_when: node_installed.rc not in [0, 1, 127]
+    - name: install node script
+      shell: /bin/bash -lc "curl -sL https://rpm.nodesource.com/setup | bash -"
+      when: node_installed.rc == 127
+    - name: install nodejs
+      yum: name=nodejs state=latest
+      when: node_installed.rc == 127
+    - name: install npm
+      yum: name=npm state=latest
+      when: node_installed.rc == 127
+
+
+    #### Install Mecab
+    - name: download mecab.tar.gz
+      get_url: url={{mecab_url}} dest={{work_dir}}
+      become: no
+    - name: unarchive mecab.tar.gz
+      command: chdir={{work_dir}} tar xvzf {{mecab_ver}}.tar.gz
+      become: no
+    - name: configure mecab
+      command: chdir={{work_dir}}/{{mecab_ver}} ./configure
+      become: no
+    - name: make mecab
+      command: chdir={{work_dir}}/{{mecab_ver}} make
+      become: no
+    - name: make install mecab
+      command: chdir={{work_dir}}/{{mecab_ver}} make install
+      become: yes
+    - name: delete mecab source dir
+      file: path={{work_dir}}/{{mecab_ver}} state=absent
+    - name: delete mecab source file
+      file: path={{work_dir}}/{{mecab_ver}}.tar.gz state=absent
+
+
+    #### Install mecab-ipadic
+    - name: download ipadic.tar.gz
+      get_url: url={{ipadic_url}} dest={{work_dir}}
+      become: no
+    - name: unarchive ipadic.tar.gz
+      command: chdir={{work_dir}} tar xvzf {{ipadic_ver}}.tar.gz
+      become: no
+    - name: configure ipadic
+      command: chdir={{work_dir}}/{{ipadic_ver}} ./configure --with-charset=utf8
+      become: no
+    - name: make ipadic
+      command: chdir={{work_dir}}/{{ipadic_ver}} make
+      become: no
+    - name: make install ipadic
+      command: chdir={{work_dir}}/{{ipadic_ver}} make install
+      become: yes
+    - name: delete ipadic source dir
+      file: path={{work_dir}}/{{ipadic_ver}} state=absent
+    - name: delete ipadic source file
+      file: path={{work_dir}}/{{ipadic_ver}}.tar.gz state=absent
+
+    #### Install mecab-ipadic-neologd
+    - git:
+        repo: 'https://github.com/neologd/mecab-ipadic-neologd.git'
+        dest: '{{work_dir}}/{{neologd_dir}}'
+      become: no
+    - name: install NEologd
+      command: chdir={{work_dir}}/{{neologd_dir}} ./bin/install-mecab-ipadic-neologd -n -y
+      become: no
+    - name: delete NEologd dir
+      file: path={{work_dir}}/{{neologd_dir}} state=absent
+
+
+    ### Groonga
+    - name: groonga-release-latest
+      yum: name=https://packages.groonga.org/centos/groonga-release-latest.noarch.rpm state=present
+
+    - name: mysql-community-release-el6-7
+      yum: name=http://repo.mysql.com/mysql-community-release-el6-7.noarch.rpm state=present
+
+    - name: yum-utils
+      yum: name=yum-utils state=present
+
+    - name: install mysql57-community-mroonga
+      yum: name=mysql57-community-mroonga enablerepo=epel,mysql57-community disablerepo=mysql56-community state=present
+
+    - name: start mysql and enabled
+      service: name=mysqld state=started enabled=yes
+
+    - name: install groonga-tokenizer-mecab
+      yum: name={{item}} enablerepo=epel,mysql56-community disablerepo=mysql56-community state=present
+      with_items:
+        - groonga-tokenizer-mecab
+
+    - name: install php-mysql-related
+      yum: name={{item}} enablerepo=remi,remi-php56,mysql56-community disablerepo=mysql56-community state=present
+      with_items:
+        - php
+        - php-mbstring
+        - php-mcrypt
+        - php-common
+        - php-xml
+        - php-gd
+        - php-mysql
+        - php-pecl-xdebug
+
+    - name: create documents directory
+      file: path=/home/vagrant/Documents state=directory owner=vagrant group=vagrant mode=0700
+      become: no
+
+    - name: create documents/laravel directory
+      file: path=/home/vagrant/Documents/laravel state=directory owner=vagrant group=vagrant mode=0700
+      become: no
+
+    - name: download composer
+      command: php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+      args:
+         chdir: /home/vagrant/Documents/laravel/
+      become: no
+
+    - name: setup composer
+      command: php composer-setup.php
+      args:
+        chdir: /home/vagrant/Documents/laravel/
+      become: no
+
+    - name: unlink composer-setup
+      command: php -r "unlink('composer-setup.php');"
+      args:
+        chdir: /home/vagrant/Documents/laravel/
+      become: no
+
+
+  handlers:
+    - name: restart apache
+      service: name=httpd state=restarted
