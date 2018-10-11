@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+    - name: create documents directory
+      file: path=/home/vagrant/Documents state=directory owner=vagrant group=vagrant mode=0700
+      become: no
+
+    - name: create documents/ldap_work directory
+      file: path=/home/vagrant/Documents/ldap_work state=directory owner=vagrant group=vagrant mode=0700
+      become: no
+
+    - name: copy ldif-1
+      copy: src={{ item }} dest=/home/vagrant/Documents/ldap_work/
+      with_fileglob:
+        - ldap_work/*
+      become: no
+
+  handlers:
