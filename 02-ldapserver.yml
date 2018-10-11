@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+    - name: install openLDAP-Servers
+      yum: name=openldap-servers state=latest
+
+    - name: install openLDAP-Clients
+      yum: name=openldap-clients state=latest
+
+    - name: copy DB_CONFIG
+      copy:
+        src: /usr/share/openldap-servers/DB_CONFIG.example
+        dest: /var/lib/ldap/DB_CONFIG
+        owner: ldap
+        mode: 0644
+
+    - name: start slapd and enabled
+      service: name=slapd state=started enabled=yes
+
+  handlers:

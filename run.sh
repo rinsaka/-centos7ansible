@@ -2,3 +2,4 @@ test -z $(which ansible-playbook) && sudo yum install -y epel-release && sudo yu
 sudo yum update -y ansible
 ansible-playbook main.yml --connection=local
 ansible-playbook 01-apache.yml --connection=local
+ansible-playbook 02-ldapserver.yml --connection=local
