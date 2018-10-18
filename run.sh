@@ -8,3 +8,4 @@ ansible-playbook 04-mecab.yml --connection=local
 ansible-playbook 05-mysql.yml --connection=local
 ansible-playbook 06-php.yml --connection=local
 ansible-playbook 07-laravel.yml --connection=local
+ansible-playbook 08-ruby.yml --connection=local
