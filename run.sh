@@ -4,4 +4,5 @@ ansible-playbook main.yml --connection=local
 ansible-playbook 01-apache.yml --connection=local
 ansible-playbook 02-ldapserver.yml --connection=local
 ansible-playbook 03-ldif.yml --connection=local
+ansible-playbook 04-mecab.yml --connection=local
 ansible-playbook 05-mysql.yml --connection=local
