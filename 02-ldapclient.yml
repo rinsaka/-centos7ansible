@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+    - name: install openLDAP-Clients
+      yum: name=openldap-clients state=latest
+    - name: install nscd
+      yum: name=nscd state=latest
+    - name: install nss-pam-ldapd
+      yum: name=nss-pam-ldapd state=latest
+
+    - name: copy nsswitch.conf.custom
+      copy: src=nsswitch.conf.custom dest=/etc/nsswitch.conf backup=yes
+      notify:
+        - restart nslcd
+
+    # ホームディレクトリの自動生成
+    - name: copy system-auth-ac.custom
+      copy: src=system-auth-ac.custom dest=/etc/pam.d/system-auth-ac backup=yes
+    - name: copy password-auth-ac.custom
+      copy: src=password-auth-ac.custom dest=/etc/pam.d/password-auth-ac backup=yes
+
+
+  handlers:
