@@ -26,5 +26,6 @@
         replace='UTC'
     - name: install man
       yum: name=man state=latest
-
+    - name: install patch   # mecab-ipadic-neologd のインストールに必要
+      yum: name=patch state=latest
   handlers:

@@ -1,0 +1,68 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+    - mecab_ver: mecab-0.996
+    - mecab_url: https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7cENtOXlicTFaRUE
+    - ipadic_url: https://drive.google.com/uc?export=download&id=0B4y35FiV1wh7MWVlSDBCSXZMTXM
+    - ipadic_ver: mecab-ipadic-2.7.0-20070801
+    - neologd_dir: neologd
+
+  tasks:
+    #### Install Mecab
+    - name: download mecab.tar.gz
+      get_url: url={{mecab_url}} dest={{work_dir}}
+      become: no
+    - name: unarchive mecab.tar.gz
+      command: chdir={{work_dir}} tar xvzf {{mecab_ver}}.tar.gz
+      become: no
+    - name: configure mecab
+      command: chdir={{work_dir}}/{{mecab_ver}} ./configure
+      become: no
+    - name: make mecab
+      command: chdir={{work_dir}}/{{mecab_ver}} make
+      become: no
+    - name: make install mecab
+      command: chdir={{work_dir}}/{{mecab_ver}} make install
+      become: yes
+    - name: delete mecab source dir
+      file: path={{work_dir}}/{{mecab_ver}} state=absent
+    - name: delete mecab source file
+      file: path={{work_dir}}/{{mecab_ver}}.tar.gz state=absent
+
+    #### Install mecab-ipadic
+    - name: download ipadic.tar.gz
+      get_url: url={{ipadic_url}} dest={{work_dir}}
+      become: no
+    - name: unarchive ipadic.tar.gz
+      command: chdir={{work_dir}} tar xvzf {{ipadic_ver}}.tar.gz
+      become: no
+    - name: configure ipadic
+      command: chdir={{work_dir}}/{{ipadic_ver}} ./configure --with-charset=utf8
+      become: no
+    - name: make ipadic
+      command: chdir={{work_dir}}/{{ipadic_ver}} make
+      become: no
+    - name: make install ipadic
+      command: chdir={{work_dir}}/{{ipadic_ver}} make install
+      become: yes
+    - name: delete ipadic source dir
+      file: path={{work_dir}}/{{ipadic_ver}} state=absent
+    - name: delete ipadic source file
+      file: path={{work_dir}}/{{ipadic_ver}}.tar.gz state=absent
+
+    #### Install mecab-ipadic-neologd
+    - name: download mecab-ipadic-neologd
+      git:
+        repo: 'https://github.com/neologd/mecab-ipadic-neologd.git'
+        dest: '{{work_dir}}/{{neologd_dir}}'
+      become: no
+    - name: install NEologd
+      command: chdir={{work_dir}}/{{neologd_dir}} ./bin/install-mecab-ipadic-neologd -n -y
+      become: no
+    - name: delete NEologd dir
+      file: path={{work_dir}}/{{neologd_dir}} state=absent
+
+  handlers:
