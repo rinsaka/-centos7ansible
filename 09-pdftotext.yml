@@ -12,4 +12,8 @@
     - name: install poppler-utils
       yum: name=poppler-utils state=latest
 
+    # gs を使いたい
+    - name: install ghostscript
+      yum: name=ghostscript state=latest
+
   handlers:
