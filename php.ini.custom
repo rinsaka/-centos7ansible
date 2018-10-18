@@ -363,7 +363,7 @@ zend.enable_gc = On
 ; threat in any way, but it makes it possible to determine whether you use PHP
 ; on your server or not.
 ; http://php.net/expose-php
-expose_php = Off
+expose_php = On
 
 ;;;;;;;;;;;;;;;;;;;
 ; Resource Limits ;
@@ -575,7 +575,6 @@ html_errors = On
 ;error_log = php_errors.log
 ; Log errors to syslog.
 ;error_log = syslog
-error_log=/var/log/php.log
 
 ;windows.show_crt_warning
 ; Default value: 0
@@ -661,7 +660,7 @@ auto_globals_jit = On
 ; Its value may be 0 to disable the limit. It is ignored if POST data reading
 ; is disabled through enable_post_data_reading.
 ; http://php.net/post-max-size
-post_max_size = 8M
+post_max_size = 100M
 
 ; Automatically add files before PHP document.
 ; http://php.net/auto-prepend-file
@@ -809,7 +808,7 @@ file_uploads = On
 
 ; Maximum allowed size for uploaded files.
 ; http://php.net/upload-max-filesize
-upload_max_filesize = 2M
+upload_max_filesize = 100M
 
 ; Maximum number of files that can be uploaded via a single request
 max_file_uploads = 20
@@ -887,7 +886,7 @@ cli_server.color = On
 [Date]
 ; Defines the default timezone used by the date functions
 ; http://php.net/date.timezone
-date.timezone = Asia/Tokyo
+date.timezone = 'Asia/Tokyo'
 
 ; http://php.net/date.default-latitude
 ;date.default_latitude = 31.7667
