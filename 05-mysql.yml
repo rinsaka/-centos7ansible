@@ -25,7 +25,7 @@
       command: yum makecache
 
     - name: install mysql57-community-mroonga
-      yum: name=mysql57-community-mroonga state=present
+      yum: name=mysql57-community-mroonga state=present disable_gpg_check=yes
 
     # Ruby on Rail で使うためにに devel も入れておく
     - name: install mysql-community-devel
@@ -35,7 +35,7 @@
       service: name=mysqld state=started enabled=yes
 
     - name: install groonga-tokenizer-mecab
-      yum: name={{item}} enablerepo=epel,mysql57-community disablerepo=mysql56-community state=present
+      yum: name={{item}} enablerepo=epel,mysql57-community disablerepo=mysql56-community state=present disable_gpg_check=yes
       with_items:
         - groonga-tokenizer-mecab
 
