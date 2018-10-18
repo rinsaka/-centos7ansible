@@ -27,4 +27,16 @@
     - name: install mysql57-community-mroonga
       yum: name=mysql57-community-mroonga state=present
 
+    # Ruby on Rail で使うためにに devel も入れておく
+    - name: install mysql-community-devel
+      yum: name=mysql-community-devel state=latest
+
+    - name: start mysql and enabled
+      service: name=mysqld state=started enabled=yes
+
+    - name: install groonga-tokenizer-mecab
+      yum: name={{item}} enablerepo=epel,mysql57-community disablerepo=mysql56-community state=present
+      with_items:
+        - groonga-tokenizer-mecab
+
   handlers:
