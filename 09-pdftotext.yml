@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+    # pdftotext を使いたい
+    - name: install poppler
+      yum: name=poppler state=latest
+    - name: install poppler-utils
+      yum: name=poppler-utils state=latest
+
+  handlers:
