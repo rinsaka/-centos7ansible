@@ -1,5 +1,5 @@
 # What's This?
-- インストールされた直後のCentOS 6 (centos6vagrantfile) に，Ruby, Python, PHP, Laravel, MySQL-Mroonga, Mecab などを自動的にインストールすることができます．
+- インストールされた直後のCentOS 7 (centos7vagrantfile) に，Python, PHP, Laravel, MySQL-Mroonga, Mecab などを自動的にインストールすることができます．
 
 # 設定方法
 
@@ -19,4 +19,3 @@ exec $SHELL -l
 tmp_password=$(sudo grep 'A temporary password' /var/log/mysqld.log | sed -e 's/^.*: //')
 sudo mysqladmin -u root --password="${tmp_password}" password
 ~~~
-
