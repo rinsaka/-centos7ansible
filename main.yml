@@ -28,4 +28,6 @@
       yum: name=man state=latest
     - name: install patch   # mecab-ipadic-neologd のインストールに必要
       yum: name=patch state=latest
+    - name: install unzip   # laravel のプロジェクト生成に必要
+      yum: name=unzip state=latest
   handlers:
