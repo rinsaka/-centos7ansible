@@ -23,6 +23,7 @@
         - php-xml
         - php-mcrypt
         - php-mysql
+        - php-ldap
         - php-pecl-xdebug
       notify:
         - restart httpd
