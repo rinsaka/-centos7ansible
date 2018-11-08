@@ -4,10 +4,11 @@ ansible-playbook main.yml --connection=local
 ansible-playbook 01-apache.yml --connection=local
 
 ### LDAP Client の場合は次の1行を有効に
-# ansible-playbook 02-ldapserver.yml --connection=local
+# ansible-playbook 02-ldapclient.yml --connection=local
+
 
 ### LDAP Server の場合は次の1行を有効に
-# ansible-playbook 02-ldapclient.yml --connection=local
+# ansible-playbook 02-ldapserver.yml --connection=local
 # ansible-playbook 03-ldif.yml --connection=local
 
 
