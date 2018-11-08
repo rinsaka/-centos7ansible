@@ -10,7 +10,7 @@
       command: rpm -Uvh --force http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
 
     - name: install php
-      yum: name={{item}} enablerepo=remi,remi-php56,mysql57-community disablerepo=mysql56-community state=present
+      yum: name={{item}} enablerepo=remi,remi-php71,mysql57-community disablerepo=mysql56-community state=present
       with_items:
         - php
         - php-common
