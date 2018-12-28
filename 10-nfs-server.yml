@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+    - name: install nfs-utils 
+      yum: name=nfs-utils state=latest
+    - name: start rpcbind and enabled
+      service: name=rpcbind state=started enabled=yes
+    - name: start nfs-server and enabled
+      service: name=nfs-server state=started enabled=yes
+
+  handlers:
