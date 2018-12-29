@@ -20,4 +20,13 @@
         - ldap_work/*
       become: no
 
+    - name: create /home/students directory
+      file: path=/home/studnets state=directory owner=root group=root mode=0755
+      become: no
+
+    - name: create /home/public directory
+      file: path=/home/public state=directory owner=vagrant group=vagrant mode=0755
+      become: no
+    
+
   handlers:
