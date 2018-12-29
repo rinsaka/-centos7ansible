@@ -7,7 +7,7 @@ cn: ユーザ01
 sn: テスト
 uidNumber: 6115001
 gidNumber: 6115001
-homeDirectory: /home/testuser01
+homeDirectory: /home/students/testuser01
 userPassword: {SSHA}Zhmtue3Hdg1jW0OlBPGRUoqulru7N4Aw
 loginShell: /bin/bash
 
@@ -28,7 +28,7 @@ cn: ユーザ02
 sn: テスト
 uidNumber: 6115002
 gidNumber: 6115002
-homeDirectory: /home/testuser02
+homeDirectory: /home/students/testuser02
 userPassword: {SSHA}wos/PcNstyyteBuWEmGR/F7v/X+21Oqx
 loginShell: /bin/bash
 
@@ -49,7 +49,7 @@ cn: ユーザ03
 sn: テスト
 uidNumber: 6115003
 gidNumber: 6115003
-homeDirectory: /home/testuser03
+homeDirectory: /home/students/testuser03
 userPassword: {SSHA}1eSAx30xFryfqagaRIk2o9+k+KmTOgnN
 loginShell: /bin/bash
 
