@@ -1,0 +1,61 @@
+# パスワードは hogehoge.01
+dn: uid=dummyuser01,ou=People,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: dummyuser01
+cn: ユーザ01
+sn: ダミー
+uidNumber: 6000001
+gidNumber: 6000001
+homeDirectory: /home/students/dummyuser01
+userPassword: {SSHA}Nf3q0AmByaud8O+Fa2IrcYLluXw/DHhm
+loginShell: /bin/bash
+
+# グループ
+dn: cn=dummyuser01,ou=Group,dc=example,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: dummyuser01
+gidNumber: 6000001
+
+
+# パスワードは hogehoge.02
+dn: uid=dummyuser02,ou=People,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: dummyuser02
+cn: ユーザ02
+sn: ダミー
+uidNumber: 6000002
+gidNumber: 6000002
+homeDirectory: /home/students/dummyuser02
+userPassword: {SSHA}N1Xc2Ns2fZvpeOgk3lD/Vu0ne2J9jGEm
+loginShell: /bin/bash
+
+# グループ
+dn: cn=dummyuser02,ou=Group,dc=example,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: dummyuser02
+gidNumber: 6000002
+
+
+# パスワードは hogehoge.03
+dn: uid=dummyuser03,ou=People,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: posixAccount
+uid: dummyuser03
+cn: ユーザ03
+sn: ダミー
+uidNumber: 6000003
+gidNumber: 6000003
+homeDirectory: /home/students/dummyuser03
+userPassword: {SSHA}aJPa37w4UuCX5A3HRWCNWKvTbhD7ZBlo
+loginShell: /bin/bash
+
+# グループ
+dn: cn=dummyuser03,ou=Group,dc=example,dc=com
+objectClass: posixGroup
+objectClass: top
+cn: dummyuser03
+gidNumber: 6000003

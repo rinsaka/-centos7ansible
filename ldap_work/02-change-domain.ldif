@@ -19,4 +19,4 @@ olcRootDN: cn=Manager,dc=example,dc=com
 dn: olcDatabase={2}hdb,cn=config
 changetype: modify
 add: olcRootPW
-olcRootPW: {SSHA}hCRGAmZCAFAt4XhtWgePxEDTRaOAubDr
+olcRootPW: {SSHA}AHrMqXz9ywu9YErmiytMPT5C8z5QNMjY
