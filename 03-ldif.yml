@@ -21,12 +21,15 @@
       become: no
 
     - name: create /home/students directory
-      file: path=/home/studnets state=directory owner=root group=root mode=0755
+      file: path=/home/students state=directory owner=root group=root mode=0755
       become: yes
 
-    - name: create /home/public directory
-      file: path=/home/public state=directory owner=vagrant group=vagrant mode=0755
+    - name: create /home/haifu directory
+      file: path=/home/haifu state=directory owner=vagrant group=vagrant mode=0755
       become: yes
     
+    - name: create /home/tmp directory
+      file: path=/home/tmp state=directory owner=vagrant group=vagrant mode=0777
+      become: yes
 
   handlers:
