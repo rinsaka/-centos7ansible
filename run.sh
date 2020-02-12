@@ -14,6 +14,7 @@ ansible-playbook 01-apache.yml --connection=local
 
 ### いろいろな開発環境は以下をすべて有効に
 ansible-playbook 04-mecab.yml --connection=local
+ansible-playbook 05-mongodb.yml --connection=local
 ansible-playbook 05-mysql.yml --connection=local
 ansible-playbook 06-php.yml --connection=local
 ansible-playbook 07-laravel.yml --connection=local

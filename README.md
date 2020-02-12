@@ -13,6 +13,19 @@
 exec $SHELL -l
 ~~~
 
+## MongoDB のパスワード設定
+~~~
+$ monogo
+> use admin
+> db.createUser({user:"root", pwd:"hogehoge", roles:["root"]})
+> quit()
+~~~
+
+## MongoDB の確認
+~~~
+# mongo -u root
+~~~
+
 ## mysql のパスワード設定
 
 ~~~

@@ -1,0 +1,21 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+
+    - name: copy mongodb-org-4.2.repo
+      copy: src=mongodb-org-4.2.repo.custom dest=/etc/yum.repos.d/mongodb-org-4.2.repo backup=yes
+
+    - name: install mongodb-org-4.2
+      yum: name=mongodb-org state=latest
+
+    - name: copy mongod.conf
+      copy: src=mongod.conf.custom dest=/etc/mongod.conf
+
+    - name: start mongod 
+      service: name=mongod state=started enabled=yes
+  handlers:
