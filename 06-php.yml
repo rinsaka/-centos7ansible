@@ -26,6 +26,7 @@
         - php-ldap
         - php-pecl-xdebug
         - php-gmp
+        - php-pecl-mongodb
       notify:
         - restart httpd
 
