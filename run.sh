@@ -20,3 +20,4 @@ ansible-playbook 06-php.yml --connection=local
 ansible-playbook 07-laravel.yml --connection=local
 ansible-playbook 08-ruby.yml --connection=local
 ansible-playbook 09-pdftotext.yml --connection=local
+ansible-playbook 11-bind-utils.yml --connection=local

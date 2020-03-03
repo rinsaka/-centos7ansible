@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+    - name: install bind-utils 
+      yum: name=bind-utils state=latest
+  handlers:
