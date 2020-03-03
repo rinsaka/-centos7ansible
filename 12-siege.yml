@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+    - siege_ver: siege-4.0.5 
+    - siege_url: http://download.joedog.org/siege/siege-4.0.5.tar.gz
+
+  tasks:
+    #### Install Siege
+    - name: download siege-4.0.5.tar.gz
+      get_url: url={{siege_url}} dest={{work_dir}}
+      become: no
+    - name: unarchive siege-4.0.5.tar.gz
+      command: chdir={{work_dir}} tar xvzf {{siege_ver}}.tar.gz
+      become: no
+    - name: configure siege 
+      command: chdir={{work_dir}}/{{siege_ver}} ./configure
+      become: no
+    - name: make siege
+      command: chdir={{work_dir}}/{{siege_ver}} make
+      become: no
+    - name: make install siege
+      command: chdir={{work_dir}}/{{siege_ver}} make install
+      become: yes
+    - name: delete siege source dir
+      file: path={{work_dir}}/{{siege_ver}} state=absent
+    - name: delete siege source file
+      file: path={{work_dir}}/{{siege_ver}}.tar.gz state=absent
+
+  handlers:
