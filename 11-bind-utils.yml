@@ -8,4 +8,6 @@
   tasks:
     - name: install bind-utils 
       yum: name=bind-utils state=latest
+    - name: install jwhois
+      yum: name=jwhois state=latest
   handlers:
