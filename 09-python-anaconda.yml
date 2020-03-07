@@ -39,4 +39,8 @@
       shell: source ~/.bashrc
       become: no
 
+    - name: Update Conda
+      shell: /home/vagrant/.pyenv/versions/{{anaconda_version}}/bin/conda update conda -y 
+      become: no
+
   handlers:
