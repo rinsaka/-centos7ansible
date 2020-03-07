@@ -3,7 +3,6 @@
   become: yes
   vars:
     - ruby_version: 2.3.1
-    - python_version: 3.5.2
     - src_dir: src
     - work_dir: work
 
@@ -72,43 +71,6 @@
     - name: install ruby
       shell: /bin/bash -lc "rbenv install {{ruby_version}} && rbenv rehash && rbenv global {{ruby_version}}"
       when: ruby_installed.rc == 1
-      become: no
-
-    - name: check pyenv installed
-      command: test -x /home/vagrant/.pyenv
-      register: pyenv_present
-      become: no
-      failed_when: pyenv_present.rc not in [0, 1]
-    - name: git clone pyenv
-      git: repo=https://github.com/yyuu/pyenv.git dest=/home/vagrant/.pyenv
-      when: pyenv_present.rc == 1
-      become: no
-
-    - name: check pyvirtual installed
-      command: test -x /home/vagrant/.pyenv/plugins/pyenv-virtualenv
-      register: pyvirtual_present
-      become: no
-      failed_when: pyvirtual_present.rc not in [0, 1]
-    - name: git clone pyenv-virtual
-      git: repo=https://github.com/yyuu/pyenv-virtualenv.git dest=/home/vagrant/.pyenv/plugins/pyenv-virtualenv
-      when: pyvirtual_present.rc == 1
-      become: no
-
-    - name: update pyenv
-      command: git pull --rebase chdir=/home/vagrant/.pyenv
-      become: no
-    - name: update pyenv-virtualenv
-      command: git pull --rebase chdir=/home/vagrant/.pyenv/plugins/pyenv-virtualenv
-      become: no
-
-    - name: check python installed
-      shell: /bin/bash -lc "pyenv versions | grep {{python_version}}"
-      register: python_installed
-      become: no
-      failed_when: python_installed.rc not in [0, 1]
-    - name: install python
-      shell: /bin/bash -lc "pyenv install {{python_version}} && pyenv rehash && pyenv global {{python_version}}"
-      when: python_installed.rc == 1
       become: no
 
     - name: check node js installed
