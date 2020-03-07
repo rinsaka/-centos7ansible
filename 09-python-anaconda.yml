@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - anaconda_version: anaconda3-2019.10
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+
+    - name: git clone pyenv
+      git: repo=https://github.com/yyuu/pyenv.git dest=/home/vagrant/.pyenv
+      become: no
+
+    - name: edit .bashrc (1)
+      shell: /usr/bin/echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bashrc
+      become: no
+    - name: edit .bashrc (2)
+      shell: /usr/bin/echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bashrc
+      become: no
+    - name: edit .bashrc (3)
+      shell: /usr/bin/echo 'eval "$(pyenv init -)"' >> ~/.bashrc
+      become: no
+
+    - name: Install Anaconda
+      shell: pyenv install {{anaconda_version}}
+      become: no
+    - name: Refresh
+      shell: pyenv rehash
+      become: no
+
+    - name: Set Global
+      shell: pyenv global {{anaconda_version}}
+      become: no
+    - name: edit .bashrc
+      shell: /usr/bin/echo 'export PATH="$PYENV_ROOT/versions/{{anaconda_version}}/bin/:$PATH"' >> ~/.bashrc
+      become: no
+    - name: Source
+      shell: source ~/.bashrc
+      become: no
+
+  handlers:
