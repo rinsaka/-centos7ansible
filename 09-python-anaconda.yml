@@ -23,14 +23,14 @@
       become: no
 
     - name: Install Anaconda
-      shell: pyenv install {{anaconda_version}}
+      shell: /home/vagrant/.pyenv/bin/pyenv install {{anaconda_version}}
       become: no
-    - name: Refresh
-      shell: pyenv rehash
+    - name: Rehash
+      shell: /home/vagrant/.pyenv/bin/pyenv rehash
       become: no
 
     - name: Set Global
-      shell: pyenv global {{anaconda_version}}
+      shell: /home/vagrant/.pyenv/bin/pyenv global {{anaconda_version}}
       become: no
     - name: edit .bashrc
       shell: /usr/bin/echo 'export PATH="$PYENV_ROOT/versions/{{anaconda_version}}/bin/:$PATH"' >> ~/.bashrc
