@@ -6,9 +6,11 @@
     - work_dir: work
 
   tasks:
-    - name: install apache
+    - name: install httpd 
       yum: name=httpd state=latest
-    - name: start apache and enabled
+    - name: install httpd-devel
+      yum: name=httpd-devel state=latest
+    - name: start httpd and enabled
       service: name=httpd state=started enabled=yes
     - name: change owner
       file: dest=/var/www/html owner=vagrant recurse=yes
