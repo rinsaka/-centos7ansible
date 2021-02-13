@@ -1,6 +1,7 @@
 test -z $(which ansible-playbook) && sudo yum install -y epel-release && sudo yum install -y ansible
 sudo yum update -y ansible
 ansible-playbook main.yml --connection=local
+ansible-playbook 00-ntp.yml --connection=local
 ansible-playbook 01-apache.yml --connection=local
 
 ### LDAP Client の場合は次の1行を有効に

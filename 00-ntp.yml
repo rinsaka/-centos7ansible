@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+    - name: install ntp 
+      yum: name=ntp state=latest
+    - name: start ntpd and enabled
+      service: name=ntpd state=started enabled=yes
+
+  handlers:
