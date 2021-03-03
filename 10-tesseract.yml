@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  become: yes
+  vars:
+    - src_dir: src
+    - work_dir: work
+
+  tasks:
+    # tesseract を使いたい
+    - name: install tesseract
+      yum: name=tesseract state=latest
+    - name: install tesseract-langpack-jpn
+      yum: name=tesseract-langpack-jpn state=latest
+
+
+  handlers:
