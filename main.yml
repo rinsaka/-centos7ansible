@@ -26,6 +26,10 @@
         replace='UTC'
     - name: install man
       yum: name=man state=latest
+    - name: install gcc   # mecab の make に必要
+      yum: name=gcc state=latest
+    - name: install gcc-c++   # mecab の make に必要
+      yum: name=gcc-c++ state=latest
     - name: install patch   # mecab-ipadic-neologd のインストールに必要
       yum: name=patch state=latest
     - name: install unzip   # laravel のプロジェクト生成に必要
