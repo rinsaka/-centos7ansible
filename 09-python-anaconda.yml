@@ -2,7 +2,8 @@
 - hosts: localhost
   become: yes
   vars:
-    - anaconda_version: anaconda3-2019.10
+#    - anaconda_version: anaconda3-2019.10
+    - anaconda_version: anaconda3-2020.11
     - src_dir: src
     - work_dir: work
 
