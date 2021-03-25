@@ -97,11 +97,4 @@
     - name: install yarn
       yum: name=yarn state=present
 
-    # sqlite 3.8
-    - name: install sqlite-3.8
-      yum: name=https://kojipkgs.fedoraproject.org//packages/sqlite/3.8.11/1.fc21/x86_64/sqlite-3.8.11-1.fc21.x86_64.rpm state=present
-    - name: install sqlite-devel-3.8
-      yum: name=https://kojipkgs.fedoraproject.org//packages/sqlite/3.8.11/1.fc21/x86_64/sqlite-devel-3.8.11-1.fc21.x86_64.rpm state=present
-
-
   handlers:
