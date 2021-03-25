@@ -73,23 +73,23 @@
       when: ruby_installed.rc == 1
       become: no
 
-     # 一旦古いバージョンの nodejs, npm をインストール
-     - name: install nodejs
-       yum: name=nodejs state=latest
-     - name: install npm
-       yum: name=npm state=latest
-     - name: install n
-       shell: /bin/bash -lc "npm install -g n"
+    # 一旦古いバージョンの nodejs, npm をインストール
+    - name: install nodejs
+      yum: name=nodejs state=latest
+    - name: install npm
+      yum: name=npm state=latest
+    - name: install n
+      shell: /bin/bash -lc "npm install -g n"
 
-     # n を使って最新版の nodejs, npm をインストール
-     - name: insall stable nodejs and npm by n
-       shell: /bin/bash -lc "n stable"
+    # n を使って最新版の nodejs, npm をインストール
+    - name: insall stable nodejs and npm by n
+      shell: /bin/bash -lc "n stable"
 
-     # 古い nodejs, npm を削除
-     - name: remove previous nodejs
-       yum: name=nodejs state=absent
-     - name: remove previous npm
-       yum: name=npm state=absent
+    # 古い nodejs, npm を削除
+    - name: remove previous nodejs
+      yum: name=nodejs state=absent
+    - name: remove previous npm
+      yum: name=npm state=absent
 
 
   handlers:
