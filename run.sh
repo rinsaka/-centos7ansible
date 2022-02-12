@@ -14,16 +14,16 @@ ansible-playbook 01-apache.yml --connection=local
 
 
 ### いろいろな開発環境は以下をすべて有効に
-ansible-playbook 04-mecab.yml --connection=local
-ansible-playbook 05-mongodb.yml --connection=local
-ansible-playbook 05-mysql.yml --connection=local
+# ansible-playbook 04-mecab.yml --connection=local
+# ansible-playbook 05-mongodb.yml --connection=local
+# ansible-playbook 05-mysql.yml --connection=local
 # ansible-playbook 06-php71.yml --connection=local
-ansible-playbook 06-php73.yml --connection=local
-ansible-playbook 07-laravel.yml --connection=local
-ansible-playbook 08-ruby.yml --connection=local
-ansible-playbook 09-python-anaconda.yml --connection=local
-ansible-playbook 10-pdftotext.yml --connection=local
-ansible-playbook 10-tesseract.yml --connection=local
+# ansible-playbook 06-php73.yml --connection=local
+# ansible-playbook 07-laravel.yml --connection=local
+# ansible-playbook 08-ruby.yml --connection=local
+# ansible-playbook 09-python-anaconda.yml --connection=local
+# ansible-playbook 10-pdftotext.yml --connection=local
+# ansible-playbook 10-tesseract.yml --connection=local
 # ansible-playbook 11-nfs-server.yml --connection=local
-ansible-playbook 12-bind-utils.yml --connection=local
-ansible-playbook 13-siege.yml --connection=local
+# ansible-playbook 12-bind-utils.yml --connection=local
+# ansible-playbook 13-siege.yml --connection=local
